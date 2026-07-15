@@ -1,0 +1,128 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// Pengguna aplikasi
+// ============================================
+model User {
+  id            String   @id @default(uuid())
+  nip           String   @unique @db.VarChar(18)
+  nama          String   @db.VarChar(255)
+  email         String   @unique @db.VarChar(255)
+  passwordHash  String   @map("password_hash") @db.VarChar(255)
+  jabatan       String?  @db.VarChar(255)
+  unitKerja     String?  @map("unit_kerja") @db.VarChar(255)
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  skpTahunanImports SkpTahunanImport[]
+  setupTriwulans    SetupTriwulan[]
+  capaianHarians    CapaianHarian[]
+
+  @@map("users")
+}
+
+// ============================================
+// SKP Tahunan yang diimport dari KipApp (metadata)
+// ============================================
+model SkpTahunanImport {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  tahun      Int
+  namaFile   String?  @map("nama_file") @db.VarChar(255)
+  importedAt DateTime @default(now()) @map("imported_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, tahun])
+  @@map("skp_tahunan_import")
+}
+
+// ============================================
+// Setup per Triwulan
+// ============================================
+model SetupTriwulan {
+  id        String @id @default(uuid())
+  userId    String @map("user_id")
+  tahun     Int
+  triwulan  Int    // 1, 2, 3, atau 4
+
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rencanaKinerjas RencanaKinerja[]
+
+  @@unique([userId, tahun, triwulan])
+  @@map("setup_triwulan")
+}
+
+// ============================================
+// Jenis Rencana Kinerja
+// ============================================
+enum JenisRK {
+  UTAMA
+  TAMBAHAN
+}
+
+// ============================================
+// Rencana Kinerja (RK) dalam sebuah setup triwulan
+// ============================================
+model RencanaKinerja {
+  id               String  @id @default(uuid())
+  setupTriwulanId  String  @map("setup_triwulan_id")
+  deskripsi        String  @db.Text
+  jenis            JenisRK
+  dariImport       Boolean @default(false) @map("dari_import")
+  // true  -> berasal dari import Excel KipApp (nama & IKI tidak bisa diedit)
+  // false -> ditambah manual oleh pegawai (bisa diedit bebas)
+  urutan           Int?    // untuk menentukan urutan tampil
+
+  setupTriwulan  SetupTriwulan   @relation(fields: [setupTriwulanId], references: [id], onDelete: Cascade)
+  ikis           Iki[]
+  capaianHarians CapaianHarian[]
+
+  @@map("rencana_kinerja")
+}
+
+// ============================================
+// IKI (Indikator Kinerja Individu) per RK
+// ============================================
+model Iki {
+  id               String @id @default(uuid())
+  rencanaKinerjaId String @map("rencana_kinerja_id")
+  deskripsi        String @db.Text
+
+  rencanaKinerja RencanaKinerja @relation(fields: [rencanaKinerjaId], references: [id], onDelete: Cascade)
+
+  @@map("iki")
+}
+
+// ============================================
+// Capaian Kinerja Harian
+// ============================================
+model CapaianHarian {
+  id                String    @id @default(uuid())
+  userId            String    @map("user_id")
+  rencanaKinerjaId  String    @map("rencana_kinerja_id")
+  tanggal           DateTime  @db.Date
+  jamMulai          DateTime  @map("jam_mulai") @db.Time
+  jamSelesai        DateTime  @map("jam_selesai") @db.Time
+  // durasi dihitung otomatis di level aplikasi: jam_selesai - jam_mulai
+  deskripsiKegiatan String    @map("deskripsi_kegiatan") @db.Text
+  progress          Int       // 0 sampai 100
+  capaian           String    @db.Text
+  buktiDukungUrl    String?   @map("bukti_dukung_url") @db.Text
+  copiedFromId      String?   @map("copied_from_id")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rencanaKinerja RencanaKinerja  @relation(fields: [rencanaKinerjaId], references: [id], onDelete: Restrict)
+  copiedFrom     CapaianHarian?  @relation("CopiedEntry", fields: [copiedFromId], references: [id], onDelete: SetNull)
+  copies         CapaianHarian[] @relation("CopiedEntry")
+
+  @@map("capaian_harian")
+}
