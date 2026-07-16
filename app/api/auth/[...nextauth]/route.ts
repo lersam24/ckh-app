@@ -75,6 +75,8 @@ export const authOptions: NextAuthOptions = {
           name: user.nama,
           email: user.email,
           nip: user.nip,
+          jabatan: user.jabatan ?? undefined,
+          unitKerja: user.unitKerja ?? undefined,
         };
       },
     }),
@@ -85,6 +87,10 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         // @ts-expect-error - field custom dari authorize()
         token.nip = user.nip;
+        // @ts-expect-error - field custom dari authorize()
+        token.jabatan = user.jabatan;
+        // @ts-expect-error - field custom dari authorize()
+        token.unitKerja = user.unitKerja;
       }
       return token;
     },
@@ -92,6 +98,10 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         (session.user as { id?: string }).id = token.id as string;
         (session.user as { nip?: string }).nip = token.nip as string;
+        (session.user as { jabatan?: string }).jabatan =
+          token.jabatan as string;
+        (session.user as { unitKerja?: string }).unitKerja =
+          token.unitKerja as string;
       }
       return session;
     },
