@@ -5,6 +5,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 // ============================================
@@ -19,6 +20,9 @@ model User {
   jabatan       String?  @db.VarChar(255)
   unitKerja     String?  @map("unit_kerja") @db.VarChar(255)
   createdAt     DateTime @default(now()) @map("created_at")
+
+  failedAttempts Int       @default(0) @map("failed_attempts")
+  lockedUntil    DateTime? @map("locked_until")
 
   skpTahunanImports SkpTahunanImport[]
   setupTriwulans    SetupTriwulan[]
