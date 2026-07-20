@@ -8,21 +8,27 @@ export default async function RekapPage() {
   if (!session?.user) redirect("/login");
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
+    <div className="min-h-screen flex flex-col bg-surface-background">
       <DashboardNavbar
         userName={session.user.name ?? ""}
         userJabatan={(session.user as { jabatan?: string }).jabatan}
       />
-      <main className="flex-1 max-w-4xl w-full mx-auto px-6 py-8">
-        <h1 className="text-xl font-bold text-slate-900 mb-6">Rekap & Export</h1>
+      <main className="max-w-container-max mx-auto px-margin-lg py-gutter-lg w-full">
+        <h1 className="font-headline-lg text-headline-lg text-on-surface mb-6">Rekap &amp; Export</h1>
 
-        <div className="bg-white rounded-xl border border-dashed border-slate-300 p-10 text-center">
-          <p className="text-sm text-slate-500">
-            Halaman Rekap & Export belum tersedia.
+        <div className="bg-surface-container-lowest rounded-xl border border-dashed border-outline-variant p-10 text-center">
+          <p className="text-body-md text-on-surface-variant">
+            Halaman Rekap &amp; Export belum tersedia.
           </p>
-          <p className="text-xs text-slate-400 mt-2">
+          <p className="font-body-md text-sm text-text-secondary mt-2">
             Fitur ini akan segera dibuat untuk menampilkan ringkasan capaian kinerja harian dan export ke PDF/Excel.
           </p>
+          <a
+            href="/dashboard"
+            className="inline-block mt-4 font-label-md text-label-md px-4 py-2 rounded-lg border border-outline-variant text-primary hover:bg-surface-container-low transition-colors"
+          >
+            Kembali ke Dashboard
+          </a>
         </div>
       </main>
     </div>

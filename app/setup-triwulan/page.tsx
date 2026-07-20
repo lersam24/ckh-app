@@ -55,7 +55,7 @@ export default async function SetupTriwulanPage({
   });
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
+    <div className="min-h-screen flex flex-col bg-surface-background">
       <DashboardNavbar
         userName={session.user.name ?? ""}
         userJabatan={(session.user as { jabatan?: string }).jabatan}

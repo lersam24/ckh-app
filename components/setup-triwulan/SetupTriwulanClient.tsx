@@ -126,14 +126,14 @@ export default function SetupTriwulanClient({
   }
 
   return (
-    <main className="flex-1 max-w-4xl w-full mx-auto px-6 py-8">
+    <main className="max-w-container-max mx-auto px-margin-lg py-gutter-lg w-full">
       <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
-        <h1 className="text-xl font-bold text-slate-900">Setup Triwulan</h1>
+        <h1 className="font-headline-lg text-headline-lg text-on-surface">Setup Triwulan</h1>
         <div className="flex gap-2">
           <select
             value={tahun}
             onChange={(e) => changePeriod(parseInt(e.target.value), triwulan)}
-            className="rounded-lg border border-slate-300 text-slate-900 text-sm px-3 py-1.5"
+            className="rounded-lg border border-outline-variant text-on-surface text-sm px-3 py-1.5 bg-surface-container-lowest focus:ring-2 focus:ring-primary outline-none"
           >
             {YEAR_OPTIONS.map((y) => (
               <option key={y} value={y}>
@@ -144,7 +144,7 @@ export default function SetupTriwulanClient({
           <select
             value={triwulan}
             onChange={(e) => changePeriod(tahun, parseInt(e.target.value))}
-            className="rounded-lg border border-slate-300 text-slate-900 text-sm px-3 py-1.5"
+            className="rounded-lg border border-outline-variant text-on-surface text-sm px-3 py-1.5 bg-surface-container-lowest focus:ring-2 focus:ring-primary outline-none"
           >
             {[1, 2, 3, 4].map((t) => (
               <option key={t} value={t}>
@@ -160,29 +160,28 @@ export default function SetupTriwulanClient({
           <button
             onClick={handleCopyFromPrevious}
             disabled={isCopying}
-            className="text-sm px-3 py-1.5 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50 disabled:opacity-60"
+            className="font-label-md text-label-md px-3 py-1.5 rounded-lg border border-outline-variant text-primary hover:bg-surface-container-low transition-colors disabled:opacity-60"
           >
             {isCopying ? "Menyalin..." : "Salin dari triwulan lalu"}
           </button>
         )}
         <a
           href="/setup-triwulan/import"
-          className="text-sm px-3 py-1.5 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50"
+          className="font-label-md text-label-md px-3 py-1.5 rounded-lg border border-outline-variant text-primary hover:bg-surface-container-low transition-colors"
         >
           Import SKP Tahunan
         </a>
       </div>
 
-      {/* RK Utama */}
       <section className="mb-8">
-        <p className="text-sm font-medium text-slate-600 mb-2">
+        <p className="font-body-md text-body-md font-medium text-on-surface mb-2">
           RK Utama{" "}
-          <span className="text-slate-400 font-normal">
+          <span className="text-on-surface-variant font-normal">
             (dari import, tidak bisa diubah)
           </span>
         </p>
         {rkUtama.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-slate-300 p-6 text-center text-sm text-slate-500">
+          <div className="rounded-xl border border-dashed border-outline-variant p-6 text-center text-body-md text-on-surface-variant">
             Belum ada RK Utama. Import SKP Tahunan dulu untuk mengisi bagian
             ini.
           </div>
@@ -191,13 +190,13 @@ export default function SetupTriwulanClient({
             {rkUtama.map((rk) => (
               <div
                 key={rk.id}
-                className="bg-white border border-slate-200 rounded-xl px-5 py-3.5"
+                className="bg-surface-container-lowest border border-surface-border rounded-xl px-5 py-3.5"
               >
-                <p className="text-sm font-medium text-slate-800">
+                <p className="font-body-md text-body-md font-medium text-on-surface">
                   {rk.deskripsi}
                 </p>
                 {rk.ikis.map((iki) => (
-                  <p key={iki.id} className="text-xs text-slate-500 mt-1">
+                  <p key={iki.id} className="font-body-md text-sm text-on-surface-variant mt-1">
                     IKI: {iki.deskripsi}
                   </p>
                 ))}
@@ -207,25 +206,24 @@ export default function SetupTriwulanClient({
         )}
       </section>
 
-      {/* RK Tambahan */}
       <section>
         <div className="flex items-center justify-between mb-2">
-          <p className="text-sm font-medium text-slate-600">
+          <p className="font-body-md text-body-md font-medium text-on-surface">
             RK Tambahan{" "}
-            <span className="text-slate-400 font-normal">
+            <span className="text-on-surface-variant font-normal">
               (manual, bisa diedit)
             </span>
           </p>
           <button
             onClick={() => setIsAddOpen(true)}
-            className="text-sm px-3 py-1.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+            className="font-label-md text-label-md px-3 py-1.5 rounded-lg bg-primary text-on-primary hover:opacity-90 transition-opacity"
           >
             + Tambah RK
           </button>
         </div>
 
         {rkTambahan.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-slate-300 p-6 text-center text-sm text-slate-500">
+          <div className="rounded-xl border border-dashed border-outline-variant p-6 text-center text-body-md text-on-surface-variant">
             Belum ada RK Tambahan.
           </div>
         ) : (
@@ -233,14 +231,14 @@ export default function SetupTriwulanClient({
             {rkTambahan.map((rk) => (
               <div
                 key={rk.id}
-                className="bg-white border border-slate-200 rounded-xl px-5 py-3.5 flex items-start justify-between"
+                className="bg-surface-container-lowest border border-surface-border rounded-xl px-5 py-3.5 flex items-start justify-between"
               >
                 <div>
-                  <p className="text-sm font-medium text-slate-800">
+                  <p className="font-body-md text-body-md font-medium text-on-surface">
                     {rk.deskripsi}
                   </p>
                   {rk.ikis.map((iki) => (
-                    <p key={iki.id} className="text-xs text-slate-500 mt-1">
+                    <p key={iki.id} className="font-body-md text-sm text-on-surface-variant mt-1">
                       IKI: {iki.deskripsi}
                     </p>
                   ))}
@@ -248,7 +246,7 @@ export default function SetupTriwulanClient({
                 <button
                   onClick={() => handleDeleteRK(rk.id)}
                   disabled={deletingId === rk.id}
-                  className="text-xs text-red-600 hover:underline disabled:opacity-50 shrink-0 ml-3"
+                  className="font-label-md text-label-md text-error hover:underline disabled:opacity-50 shrink-0 ml-3"
                 >
                   {deletingId === rk.id ? "Menghapus..." : "Hapus"}
                 </button>
@@ -258,23 +256,22 @@ export default function SetupTriwulanClient({
         )}
       </section>
 
-      {/* Modal tambah RK */}
       {isAddOpen && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl w-full max-w-md p-6">
-            <h2 className="text-base font-semibold text-slate-900 mb-4">
+          <div className="bg-surface-container-lowest rounded-2xl w-full max-w-md p-6">
+            <h2 className="font-title-lg text-title-lg text-on-surface mb-4">
               Tambah RK Tambahan
             </h2>
 
             {error && (
-              <div className="mb-3 rounded-lg bg-red-50 border border-red-200 px-3 py-2 text-sm text-red-600">
+              <div className="mb-3 rounded-lg bg-error-container border border-error-container px-3 py-2 text-body-md text-on-error-container">
                 {error}
               </div>
             )}
 
             <form onSubmit={handleAddRK} className="space-y-3">
               <div>
-                <label className="block text-sm text-slate-700 mb-1">
+                <label className="block font-body-md text-body-md text-on-surface mb-1">
                   Nama Rencana Kinerja
                 </label>
                 <input
@@ -283,12 +280,12 @@ export default function SetupTriwulanClient({
                   value={namaRK}
                   onChange={(e) => setNamaRK(e.target.value)}
                   placeholder="Contoh: Menjadi narasumber webinar"
-                  className="w-full rounded-lg border border-slate-300 text-slate-900 placeholder:text-slate-400 px-3 py-2 text-sm"
+                  className="w-full rounded-lg border border-outline-variant text-on-surface placeholder:text-on-surface-variant px-3 py-2 text-sm bg-surface-container-lowest focus:ring-2 focus:ring-primary outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-sm text-slate-700 mb-1">
+                <label className="block font-body-md text-body-md text-on-surface mb-1">
                   IKI (opsional, bisa lebih dari satu)
                 </label>
                 {ikiList.map((val, idx) => (
@@ -302,13 +299,13 @@ export default function SetupTriwulanClient({
                       setIkiList(next);
                     }}
                     placeholder="Contoh: Jumlah peserta hadir > 50"
-                    className="w-full rounded-lg border border-slate-300 text-slate-900 placeholder:text-slate-400 px-3 py-2 text-sm mb-2"
+                    className="w-full rounded-lg border border-outline-variant text-on-surface placeholder:text-on-surface-variant px-3 py-2 text-sm mb-2 bg-surface-container-lowest focus:ring-2 focus:ring-primary outline-none"
                   />
                 ))}
                 <button
                   type="button"
                   onClick={() => setIkiList([...ikiList, ""])}
-                  className="text-xs text-blue-600 hover:underline"
+                  className="font-label-md text-label-md text-primary hover:underline"
                 >
                   + Tambah IKI lain
                 </button>
@@ -318,14 +315,14 @@ export default function SetupTriwulanClient({
                 <button
                   type="button"
                   onClick={() => setIsAddOpen(false)}
-                  className="px-4 py-2 text-sm rounded-lg border border-slate-300 text-slate-700"
+                  className="px-4 py-2 font-label-md text-label-md rounded-lg border border-outline-variant text-primary hover:bg-surface-container-low transition-colors"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-4 py-2 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-60"
+                  className="px-4 py-2 font-label-md text-label-md rounded-lg bg-primary text-on-primary hover:opacity-90 transition-opacity disabled:opacity-60"
                 >
                   {isSubmitting ? "Menyimpan..." : "Simpan"}
                 </button>

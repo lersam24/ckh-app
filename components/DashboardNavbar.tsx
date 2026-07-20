@@ -13,7 +13,6 @@ const NAV_ITEMS = [
 
 export default function DashboardNavbar({
   userName,
-  userJabatan,
 }: {
   userName: string;
   userJabatan?: string | null;
@@ -21,55 +20,58 @@ export default function DashboardNavbar({
   const pathname = usePathname();
 
   return (
-    <header className="bg-white border-b border-slate-200">
-      <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-8">
-          <span className="font-bold text-blue-700 text-lg">Aplikasi CKH</span>
-          <nav className="hidden sm:flex items-center gap-6 text-sm">
-            {NAV_ITEMS.map((item) => {
-              const isActive =
-                item.href === "/setup-triwulan"
-                  ? pathname === "/setup-triwulan"
-                  : pathname.startsWith(item.href);
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={
-                    isActive
-                      ? "text-blue-700 font-medium border-b-2 border-blue-700 pb-3 -mb-3 pt-3"
-                      : "text-slate-500 hover:text-slate-700 pb-3 -mb-3 pt-3"
-                  }
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
-          </nav>
-        </div>
+    <header className="bg-surface border-b border-surface-border sticky top-0 z-50">
+      <div className="flex justify-between items-center w-full px-margin-lg max-w-container-max mx-auto h-16">
+        <Link href="/dashboard" className="font-headline-sm text-headline-sm font-bold text-primary shrink-0">
+          Aplikasi CKH
+        </Link>
 
-        <div className="flex items-center gap-4">
-          <div className="text-right hidden sm:block">
-            <p className="text-sm font-semibold text-slate-800 leading-tight">
-              {userName}
-            </p>
-            {userJabatan && (
-              <p className="text-xs text-slate-500 leading-tight">
-                {userJabatan}
-              </p>
-            )}
+        <nav className="hidden md:flex items-center gap-gutter-lg h-full">
+          {NAV_ITEMS.map((item) => {
+            const isActive =
+              item.href === "/setup-triwulan"
+                ? pathname === item.href
+                : pathname.startsWith(item.href);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={
+                  isActive
+                    ? "font-body-md text-body-md text-primary border-b-2 border-primary pb-1 font-bold"
+                    : "font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors"
+                }
+              >
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div className="flex items-center gap-gutter-md">
+          <div className="hidden sm:flex items-center bg-surface-container rounded-full px-4 py-1.5 border border-surface-border">
+            <span className="material-symbols-outlined text-outline text-[20px] mr-2">search</span>
+            <input
+              className="bg-transparent border-none focus:ring-0 text-body-md w-32 lg:w-48 p-0 outline-none"
+              placeholder="Cari kegiatan..."
+              type="text"
+            />
           </div>
-          <div
-            className="h-9 w-9 rounded-full bg-slate-200 flex items-center justify-center text-xs font-medium text-slate-500"
-            aria-hidden="true"
-          >
+          <button className="material-symbols-outlined text-on-surface-variant hover:text-primary p-2 cursor-pointer">
+            notifications
+          </button>
+          <button className="material-symbols-outlined text-on-surface-variant hover:text-primary p-2 cursor-pointer">
+            settings
+          </button>
+          <div className="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container font-bold overflow-hidden text-sm">
             {userName?.[0]?.toUpperCase()}
           </div>
           <button
             onClick={() => signOut({ callbackUrl: "/login" })}
-            className="flex items-center gap-1 text-sm text-slate-600 hover:text-red-600"
+            className="material-symbols-outlined text-on-surface-variant hover:text-error p-2 cursor-pointer"
+            title="Keluar"
           >
-            Logout
+            logout
           </button>
         </div>
       </div>
