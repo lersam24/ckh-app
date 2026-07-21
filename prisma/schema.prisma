@@ -12,7 +12,7 @@ datasource db {
 // Pengguna aplikasi
 // ============================================
 model User {
-  id            String   @id @default(uuid())
+  id            String   @id @default(uuid()) @db.Uuid
   nip           String   @unique @db.VarChar(18)
   nama          String   @db.VarChar(255)
   email         String   @unique @db.VarChar(255)
@@ -21,6 +21,7 @@ model User {
   unitKerja     String?  @map("unit_kerja") @db.VarChar(255)
   createdAt     DateTime @default(now()) @map("created_at")
 
+  // Lockout keamanan login: dikunci 5 menit setelah 5x gagal login berturut-turut
   failedAttempts Int       @default(0) @map("failed_attempts")
   lockedUntil    DateTime? @map("locked_until")
 
@@ -35,8 +36,8 @@ model User {
 // SKP Tahunan yang diimport dari KipApp (metadata)
 // ============================================
 model SkpTahunanImport {
-  id         String   @id @default(uuid())
-  userId     String   @map("user_id")
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String   @map("user_id") @db.Uuid
   tahun      Int
   namaFile   String?  @map("nama_file") @db.VarChar(255)
   importedAt DateTime @default(now()) @map("imported_at")
@@ -51,8 +52,8 @@ model SkpTahunanImport {
 // Setup per Triwulan
 // ============================================
 model SetupTriwulan {
-  id        String @id @default(uuid())
-  userId    String @map("user_id")
+  id        String @id @default(uuid()) @db.Uuid
+  userId    String @map("user_id") @db.Uuid
   tahun     Int
   triwulan  Int    // 1, 2, 3, atau 4
 
@@ -75,14 +76,14 @@ enum JenisRK {
 // Rencana Kinerja (RK) dalam sebuah setup triwulan
 // ============================================
 model RencanaKinerja {
-  id               String  @id @default(uuid())
-  setupTriwulanId  String  @map("setup_triwulan_id")
+  id               String  @id @default(uuid()) @db.Uuid
+  setupTriwulanId  String  @map("setup_triwulan_id") @db.Uuid
   deskripsi        String  @db.Text
   jenis            JenisRK
   dariImport       Boolean @default(false) @map("dari_import")
   // true  -> berasal dari import Excel KipApp (nama & IKI tidak bisa diedit)
   // false -> ditambah manual oleh pegawai (bisa diedit bebas)
-  urutan           Int?    // untuk menentukan urutan tampil
+  urutan           Int?    // untuk menentukan urutan tampil (nullable: diisi saat RK dibuat/diurutkan ulang)
 
   setupTriwulan  SetupTriwulan   @relation(fields: [setupTriwulanId], references: [id], onDelete: Cascade)
   ikis           Iki[]
@@ -95,8 +96,8 @@ model RencanaKinerja {
 // IKI (Indikator Kinerja Individu) per RK
 // ============================================
 model Iki {
-  id               String @id @default(uuid())
-  rencanaKinerjaId String @map("rencana_kinerja_id")
+  id               String @id @default(uuid()) @db.Uuid
+  rencanaKinerjaId String @map("rencana_kinerja_id") @db.Uuid
   deskripsi        String @db.Text
 
   rencanaKinerja RencanaKinerja @relation(fields: [rencanaKinerjaId], references: [id], onDelete: Cascade)
@@ -108,9 +109,9 @@ model Iki {
 // Capaian Kinerja Harian
 // ============================================
 model CapaianHarian {
-  id                String    @id @default(uuid())
-  userId            String    @map("user_id")
-  rencanaKinerjaId  String    @map("rencana_kinerja_id")
+  id                String    @id @default(uuid()) @db.Uuid
+  userId            String    @map("user_id") @db.Uuid
+  rencanaKinerjaId  String    @map("rencana_kinerja_id") @db.Uuid
   tanggal           DateTime  @db.Date
   jamMulai          DateTime  @map("jam_mulai") @db.Time
   jamSelesai        DateTime  @map("jam_selesai") @db.Time
@@ -119,7 +120,7 @@ model CapaianHarian {
   progress          Int       // 0 sampai 100
   capaian           String    @db.Text
   buktiDukungUrl    String?   @map("bukti_dukung_url") @db.Text
-  copiedFromId      String?   @map("copied_from_id")
+  copiedFromId      String?   @map("copied_from_id") @db.Uuid
   createdAt         DateTime  @default(now()) @map("created_at")
   updatedAt         DateTime  @updatedAt @map("updated_at")
 
