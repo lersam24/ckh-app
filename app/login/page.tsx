@@ -1,13 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import AuthLayout from "@/components/AuthLayout";
 
 export default function LoginPage() {
-  const router = useRouter();
   const [identifier, setIdentifier] = useState(""); // NIP buat msuk
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -40,7 +38,10 @@ export default function LoginPage() {
       return;
     }
 
-    router.push("/setup-triwulan");
+    // Full reload (bukan router.push) supaya Router Cache milik akun
+    // sebelumnya di browser ini benar-benar dibuang, mencegah RK/IKI
+    // akun lama "tersangkut" saat login dengan akun berbeda.
+    window.location.href = "/setup-triwulan";
   }
 
   return (

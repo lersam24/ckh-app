@@ -7,6 +7,10 @@ import DashboardNavbar from "@/components/DashboardNavbar";
 import LogoutButton from "@/components/LogoutButton";
 import DashboardClient from "./components/DashboardClient";
 
+// Halaman ini berisi data spesifik per-user (RK, IKI, capaian harian).
+// Wajib selalu dynamic agar tidak pernah tersaji dari cache lintas akun.
+export const dynamic = "force-dynamic";
+
 function getTriwulanDateRange(tahun: number, triwulan: number) {
   const startMonth = (triwulan - 1) * 3;
   const start = new Date(tahun, startMonth, 1);

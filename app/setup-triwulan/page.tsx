@@ -6,6 +6,10 @@ import { getCurrentTriwulan, getPreviousTriwulan } from "@/lib/current-triwulan"
 import DashboardNavbar from "@/components/DashboardNavbar";
 import SetupTriwulanClient from "@/components/setup-triwulan/SetupTriwulanClient";
 
+// Halaman ini berisi data spesifik per-user (RK, IKI).
+// Wajib selalu dynamic agar tidak pernah tersaji dari cache lintas akun.
+export const dynamic = "force-dynamic";
+
 export default async function SetupTriwulanPage({
   searchParams,
 }: {

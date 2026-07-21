@@ -3,6 +3,10 @@ import { redirect } from "next/navigation";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import DashboardNavbar from "@/components/DashboardNavbar";
 
+// Halaman ini berisi data spesifik per-user.
+// Wajib selalu dynamic agar tidak pernah tersaji dari cache lintas akun.
+export const dynamic = "force-dynamic";
+
 export default async function RekapPage() {
   const session = await getServerSession(authOptions);
   if (!session?.user) redirect("/login");
