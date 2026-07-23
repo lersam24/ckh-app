@@ -41,7 +41,7 @@ export default function LoginPage() {
     // Full reload (bukan router.push) supaya Router Cache milik akun
     // sebelumnya di browser ini benar-benar dibuang, mencegah RK/IKI
     // akun lama "tersangkut" saat login dengan akun berbeda.
-    window.location.href = "/setup-triwulan";
+    window.location.href = "/dashboard";
   }
 
   return (

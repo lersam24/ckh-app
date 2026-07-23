@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 
 @theme inline {
@@ -170,4 +171,189 @@ body {
 }
 .animate-float-fast {
   animation: float-fast 5s ease-in-out infinite;
+}
+
+/* ============================================================
+   CKH LEDGER THEME
+   Tema "buku catatan/ledger" khusus untuk area dashboard —
+   monospace, hairline border, aksen tinta — mengikuti mockup
+   ASCII yang diminta. Di-scope lewat .ckh-ledger supaya halaman
+   lain (login, register) tidak terpengaruh.
+   ============================================================ */
+.ckh-ledger {
+  --ckh-paper: #faf9f6;
+  --ckh-panel: #ffffff;
+  --ckh-ink: #1a1b1e;
+  --ckh-muted: #6b7078;
+  --ckh-line: #d8d5cc;
+  --ckh-accent: #1e4b8f;
+  --ckh-accent-soft: #e8eef8;
+  --ckh-stamp: #b3541e;
+  --ckh-stamp-soft: #f5e6da;
+  --ckh-danger: #ba1a1a;
+  --ckh-danger-soft: #fbe9e7;
+
+  font-family: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  background-color: var(--ckh-paper);
+  color: var(--ckh-ink);
+  min-height: 100vh;
+}
+
+.ckh-ledger a {
+  color: inherit;
+}
+
+/* Panel / kartu bergaris tegas, sudut nyaris siku (khas dokumen cetak) */
+.ckh-panel {
+  background-color: var(--ckh-panel);
+  border: 1px solid var(--ckh-line);
+  border-radius: 3px;
+}
+
+.ckh-hairline {
+  border-color: var(--ckh-line);
+}
+
+/* Tombol gaya bracket: [ Label ] */
+.ckh-bracket-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--ckh-ink);
+  background: transparent;
+  border: none;
+  padding: 2px 4px;
+  cursor: pointer;
+  transition: color 0.15s ease, opacity 0.15s ease;
+}
+.ckh-bracket-btn::before {
+  content: "[";
+  color: var(--ckh-muted);
+  margin-right: 0.15em;
+}
+.ckh-bracket-btn::after {
+  content: "]";
+  color: var(--ckh-muted);
+  margin-left: 0.15em;
+}
+.ckh-bracket-btn:hover {
+  color: var(--ckh-accent);
+}
+.ckh-bracket-btn:hover::before,
+.ckh-bracket-btn:hover::after {
+  color: var(--ckh-accent);
+}
+.ckh-bracket-btn.danger:hover {
+  color: var(--ckh-danger);
+}
+.ckh-bracket-btn.danger:hover::before,
+.ckh-bracket-btn.danger:hover::after {
+  color: var(--ckh-danger);
+}
+.ckh-bracket-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Nav link gaya bracket, dipakai di header ledger */
+.ckh-nav-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ckh-muted);
+  padding: 2px 2px;
+  white-space: nowrap;
+}
+.ckh-nav-link::before {
+  content: "[";
+  color: var(--ckh-line);
+  margin-right: 0.2em;
+}
+.ckh-nav-link::after {
+  content: "]";
+  color: var(--ckh-line);
+  margin-left: 0.2em;
+}
+.ckh-nav-link:hover,
+.ckh-nav-link.active {
+  color: var(--ckh-accent);
+}
+.ckh-nav-link.active::before,
+.ckh-nav-link.active::after {
+  color: var(--ckh-accent);
+}
+
+/* Progress bar bergaya dot-matrix / segmented, mengikuti sketsa blok di mockup */
+.ckh-bar-track {
+  position: relative;
+  height: 11px;
+  width: 100%;
+  background-color: var(--ckh-paper);
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--ckh-line) 0px,
+    var(--ckh-line) 3px,
+    transparent 3px,
+    transparent 5px
+  );
+  border: 1px solid var(--ckh-ink);
+}
+.ckh-bar-fill {
+  height: 100%;
+  background-color: var(--ckh-accent);
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--ckh-accent) 0px,
+    var(--ckh-accent) 3px,
+    var(--ckh-paper) 3px,
+    var(--ckh-paper) 5px
+  );
+  transition: width 0.25s ease;
+}
+
+/* Tanda pin ala stempel, dipakai di depan judul kegiatan */
+.ckh-pin {
+  color: var(--ckh-stamp);
+}
+
+.ckh-add-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 10px 16px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ckh-accent);
+  background: transparent;
+  border: 1px dashed var(--ckh-line);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+.ckh-add-btn::before {
+  content: "+ ";
+}
+.ckh-add-btn:hover {
+  border-color: var(--ckh-accent);
+  background-color: var(--ckh-accent-soft);
+}
+
+/* Motivation card fade-in animation */
+.motivation-fade-in {
+  animation: motivationFadeIn 0.7s ease-in-out;
+}
+
+@keyframes motivationFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

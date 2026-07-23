@@ -6,6 +6,7 @@ import { getCurrentTriwulan, TRIWULAN_LABEL } from "@/lib/current-triwulan";
 import DashboardNavbar from "@/components/DashboardNavbar";
 import LogoutButton from "@/components/LogoutButton";
 import DashboardClient from "./components/DashboardClient";
+import MotivationCard from "./components/MotivationCard";
 
 // Halaman ini berisi data spesifik per-user (RK, IKI, capaian harian).
 // Wajib selalu dynamic agar tidak pernah tersaji dari cache lintas akun.
@@ -187,7 +188,7 @@ export default async function DashboardPage() {
               </span>
             </div>
           </div>
-          <div className="flex gap-gutter-sm">
+          <div className="flex gap-gutter-md">
             <a
               href="/setup-triwulan"
               className="flex items-center gap-2 px-4 py-2 border border-outline-variant text-primary rounded-lg hover:bg-surface-container-low transition-colors font-label-md text-label-md"
@@ -288,18 +289,7 @@ export default async function DashboardPage() {
               </div>
             </div>
 
-            <div className="relative bg-primary-container rounded-xl overflow-hidden min-h-[240px] flex items-end p-gutter-lg">
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-              <div className="relative z-10 text-white">
-                <span className="font-label-md text-label-md bg-white/20 backdrop-blur-md px-2 py-0.5 rounded mb-2 inline-block">
-                  Saran Produktif
-                </span>
-                <p className="font-body-lg text-body-lg italic">
-                  &ldquo;Kedisiplinan adalah jembatan antara tujuan dan
-                  pencapaian.&rdquo;
-                </p>
-              </div>
-            </div>
+            <MotivationCard />
           </div>
         </div>
       </main>
