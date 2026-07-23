@@ -160,11 +160,6 @@ export default async function DashboardPage() {
   const triwulanLabel = `${TRIWULAN_LABEL[current.triwulan]} ${current.tahun}`;
   const tanggalDefault = today.toISOString().slice(0, 10);
 
-  const persentaseHariAktif =
-    totalHariKerja > 0
-      ? Math.round((totalHariAktif / totalHariKerja) * 100)
-      : 0;
-
   return (
     <div className="min-h-screen flex flex-col bg-surface-background">
       <DashboardNavbar
@@ -231,60 +226,36 @@ export default async function DashboardPage() {
           <div className="col-span-12 lg:col-span-4 flex flex-col gap-gutter-lg">
             <div className="bg-surface-container-lowest rounded-xl border border-surface-border p-gutter-lg">
               <h3 className="font-title-lg text-title-lg text-on-surface mb-gutter-md">
-                Ringkasan TW{current.triwulan}
+                Ringkasan {triwulanLabel}
               </h3>
               <div className="space-y-gutter-md">
-                <div className="flex items-center justify-between p-3 bg-surface-container rounded-lg">
+                <div className="bg-surface-container rounded-xl p-4 flex items-center justify-between">
                   <div>
-                    <div className="text-label-md text-on-surface-variant uppercase">
-                      Hari Aktif
-                    </div>
-                    <div className="font-headline-sm text-headline-sm text-on-surface">
-                      {totalHariAktif} / {totalHariKerja} hari
-                    </div>
+                    <p className="text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">
+                      Target Capaian
+                    </p>
+                    <p className="text-2xl font-bold text-on-surface">85%</p>
                   </div>
-                  <span className="material-symbols-outlined text-primary text-[32px] opacity-40">
-                    calendar_month
-                  </span>
-                </div>
-                <div className="flex items-center justify-between p-3 bg-surface-container rounded-lg">
-                  <div>
-                    <div className="text-label-md text-on-surface-variant uppercase">
-                      Persentase Hari
-                    </div>
-                    <div className="font-headline-sm text-headline-sm text-on-surface">
-                      {persentaseHariAktif}%
-                    </div>
+                  <div className="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant">
+                    <span className="material-symbols-outlined text-[20px]">
+                      gps_fixed
+                    </span>
                   </div>
-                  <span className="material-symbols-outlined text-primary text-[32px] opacity-40">
-                    ads_click
-                  </span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-tertiary-container text-on-tertiary rounded-lg">
+                <div className="bg-tertiary-container rounded-xl p-4 flex items-center justify-between shadow-sm">
                   <div>
-                    <div className="text-label-md opacity-80 uppercase">
-                      Rata-rata Progress
-                    </div>
-                    <div className="font-headline-sm text-headline-sm">
+                    <p className="text-label-sm text-on-tertiary uppercase tracking-wider mb-1 opacity-80">
+                      Realisasi Saat Ini
+                    </p>
+                    <p className="text-2xl font-bold text-on-tertiary">
                       {rataRataProgress}%
-                    </div>
+                    </p>
                   </div>
-                  <span className="material-symbols-outlined text-[32px] opacity-40">
-                    trending_up
-                  </span>
-                </div>
-                <div className="flex items-center justify-between p-3 bg-surface-container rounded-lg">
-                  <div>
-                    <div className="text-label-md text-on-surface-variant uppercase">
-                      Total RK
-                    </div>
-                    <div className="font-headline-sm text-headline-sm text-on-surface">
-                      {allRks.length} RK
-                    </div>
+                  <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-on-tertiary">
+                    <span className="material-symbols-outlined text-[20px]">
+                      trending_up
+                    </span>
                   </div>
-                  <span className="material-symbols-outlined text-primary text-[32px] opacity-40">
-                    assignment
-                  </span>
                 </div>
               </div>
             </div>
