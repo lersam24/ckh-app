@@ -99,9 +99,9 @@ export default function DashboardClient({
 
   return (
     <>
-      <div className="bg-surface-container-lowest rounded-xl border border-surface-border shadow-sm overflow-hidden">
+      <div className="bg-surface-container-lowest rounded-xl border border-surface-border shadow-sm flex flex-col h-full overflow-hidden">
         {/* Tab Headers */}
-        <div className="border-b border-surface-border flex overflow-x-auto hide-scrollbar">
+        <div className="border-b border-surface-border flex overflow-x-auto hide-scrollbar shrink-0">
           {TABS.map((tab) => (
             <button
               key={tab.key}
@@ -118,14 +118,24 @@ export default function DashboardClient({
         </div>
 
         {/* Tab Content */}
-        <div className="p-gutter-lg space-y-gutter-md">
+        <div className="p-gutter-lg flex flex-col gap-gutter-md flex-1 overflow-y-auto hide-scrollbar">
           {activeTab === "kegiatan" && (
             <>
+              {/* Header */}
+              <div className="flex justify-between items-center">
+                <h2 className="font-title-lg text-title-lg text-on-surface">
+                  Kegiatan Hari Ini
+                </h2>
+                <span className="text-label-md text-on-surface-variant font-medium">
+                  {capaianHariIni.length} Kegiatan Terdaftar
+                </span>
+              </div>
+
               {capaianHariIni.length === 0 && (
                 <button
                   onClick={handleCopyFromYesterday}
                   disabled={isCopying}
-                  className="flex items-center gap-1.5 px-3 py-1.5 border border-outline-variant rounded-lg hover:bg-surface-container-low text-on-surface-variant transition-colors text-label-md disabled:opacity-60 mb-2"
+                  className="flex items-center gap-1.5 px-3 py-1.5 border border-outline-variant rounded-lg hover:bg-surface-container-low text-on-surface-variant transition-colors text-label-md disabled:opacity-60"
                 >
                   <span className="material-symbols-outlined text-[16px]">
                     content_paste
@@ -133,11 +143,33 @@ export default function DashboardClient({
                   {isCopying ? "Menyalin..." : "Salin dari Kemarin"}
                 </button>
               )}
-              <CapaianHarianList
-                capaianHarian={capaianHariIni}
-                rkList={rkList}
-                tanggalDefault={tanggalDefault}
-              />
+
+              {/* Card List */}
+              <div className="flex flex-col gap-gutter-md">
+                <CapaianHarianList
+                  capaianHarian={capaianHariIni}
+                  rkList={rkList}
+                  tanggalDefault={tanggalDefault}
+                />
+
+                {/* CTA Add Activity */}
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="group flex flex-col items-center justify-center gap-2 p-8 border-2 border-dashed border-outline-variant rounded-xl hover:border-primary hover:bg-surface-container-low transition-all shrink-0"
+                >
+                  <div className="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                    <span className="material-symbols-outlined font-bold text-[32px]">
+                      add
+                    </span>
+                  </div>
+                  <span className="font-title-lg text-title-lg text-primary">
+                    Tambah Kegiatan Hari Ini
+                  </span>
+                  <span className="text-label-md text-on-surface-variant">
+                    Klik untuk mencatat aktifitas baru Anda
+                  </span>
+                </button>
+              </div>
             </>
           )}
 
@@ -263,24 +295,6 @@ export default function DashboardClient({
           )}
         </div>
       </div>
-
-      {/* Tombol Tambah Kegiatan */}
-      <button
-        onClick={() => setIsModalOpen(true)}
-        className="w-full border-2 border-dashed border-primary-fixed rounded-xl p-8 hover:border-primary hover:bg-primary-fixed/20 transition-all group flex flex-col items-center justify-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary mt-6"
-      >
-        <div className="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary mb-3 group-hover:scale-110 transition-transform">
-          <span className="material-symbols-outlined text-[24px] font-bold">
-            add
-          </span>
-        </div>
-        <span className="text-lg font-semibold text-primary">
-          Tambah Kegiatan Hari Ini
-        </span>
-        <span className="text-sm text-on-surface-variant mt-1">
-          Klik untuk mencatat aktifitas baru Anda
-        </span>
-      </button>
 
       {isModalOpen && (
         <CatatanHarianModal

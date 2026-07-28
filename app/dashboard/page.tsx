@@ -161,13 +161,14 @@ export default async function DashboardPage() {
   const tanggalDefault = today.toISOString().slice(0, 10);
 
   return (
-    <div className="min-h-screen flex flex-col bg-surface-background">
+    <div className="h-screen flex flex-col bg-surface-background overflow-hidden">
       <DashboardNavbar
         userName={session.user.name ?? ""}
         userJabatan={(session.user as { jabatan?: string }).jabatan}
       />
-      <main className="max-w-container-max mx-auto px-margin-lg py-gutter-lg w-full">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-margin-lg gap-gutter-md">
+      <main className="flex-1 overflow-hidden flex flex-col max-w-container-max mx-auto px-margin-lg w-full">
+        <div className="flex-shrink-0 py-gutter-lg">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-gutter-md">
           <div>
             <h1 className="font-headline-lg text-headline-lg text-on-surface mb-1">
               Dashboard Kinerja
@@ -205,9 +206,10 @@ export default async function DashboardPage() {
             <LogoutButton />
           </div>
         </div>
+        </div>
 
-        <div className="grid grid-cols-12 gap-gutter-lg">
-          <div className="col-span-12 lg:col-span-8">
+        <div className="flex-1 overflow-hidden grid grid-cols-12 gap-gutter-lg items-start pb-gutter-lg">
+          <div className="col-span-12 lg:col-span-8 overflow-y-auto h-full">
             <DashboardClient
               rkList={rkList}
               capaianHariIni={capaianHariIni.map((c) => ({
@@ -223,44 +225,48 @@ export default async function DashboardPage() {
             />
           </div>
 
-          <div className="col-span-12 lg:col-span-4 flex flex-col gap-gutter-lg">
-            <div className="bg-surface-container-lowest rounded-xl border border-surface-border p-gutter-lg">
-              <h3 className="font-title-lg text-title-lg text-on-surface mb-gutter-md">
-                Ringkasan {triwulanLabel}
-              </h3>
-              <div className="space-y-gutter-md">
-                <div className="bg-surface-container rounded-xl p-4 flex items-center justify-between">
-                  <div>
-                    <p className="text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">
-                      Target Capaian
-                    </p>
-                    <p className="text-2xl font-bold text-on-surface">85%</p>
+          <div className="col-span-12 lg:col-span-4 overflow-y-auto h-full">
+            <div className="bg-surface-container-lowest rounded-xl border border-surface-border overflow-hidden flex flex-col">
+              <div className="p-gutter-lg">
+                <h3 className="font-title-lg text-title-lg text-on-surface mb-gutter-md">
+                  Ringkasan {triwulanLabel}
+                </h3>
+                <div className="space-y-gutter-md">
+                  <div className="bg-surface-container rounded-xl p-4 flex items-center justify-between">
+                    <div>
+                      <p className="text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">
+                        Target Capaian
+                      </p>
+                      <p className="text-2xl font-bold text-on-surface">85%</p>
+                    </div>
+                    <div className="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant">
+                      <span className="material-symbols-outlined text-[20px]">
+                        gps_fixed
+                      </span>
+                    </div>
                   </div>
-                  <div className="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant">
-                    <span className="material-symbols-outlined text-[20px]">
-                      gps_fixed
-                    </span>
-                  </div>
-                </div>
-                <div className="bg-tertiary-container rounded-xl p-4 flex items-center justify-between shadow-sm">
-                  <div>
-                    <p className="text-label-sm text-on-tertiary uppercase tracking-wider mb-1 opacity-80">
-                      Realisasi Saat Ini
-                    </p>
-                    <p className="text-2xl font-bold text-on-tertiary">
-                      {rataRataProgress}%
-                    </p>
-                  </div>
-                  <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-on-tertiary">
-                    <span className="material-symbols-outlined text-[20px]">
-                      trending_up
-                    </span>
+                  <div className="bg-tertiary-container rounded-xl p-4 flex items-center justify-between shadow-sm">
+                    <div>
+                      <p className="text-label-sm text-on-tertiary uppercase tracking-wider mb-1 opacity-80">
+                        Realisasi Saat Ini
+                      </p>
+                      <p className="text-2xl font-bold text-on-tertiary">
+                        {rataRataProgress}%
+                      </p>
+                    </div>
+                    <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-on-tertiary">
+                      <span className="material-symbols-outlined text-[20px]">
+                        trending_up
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <MotivationCard />
+              <div className="relative min-h-[200px]">
+                <MotivationCard />
+              </div>
+            </div>
           </div>
         </div>
       </main>

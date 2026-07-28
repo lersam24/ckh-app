@@ -54,7 +54,7 @@ export default function MotivationCard() {
 
   return (
     <div
-      className="relative rounded-xl overflow-hidden min-h-[240px] flex items-end p-gutter-lg"
+      className="relative w-full h-full overflow-hidden min-h-[240px] flex items-end p-gutter-lg"
       style={{ background: slide.gradient }}
     >
       {useImage && (
