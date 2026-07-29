@@ -48,20 +48,12 @@ export default function LoginPage() {
     <AuthLayout>
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
         <div className="flex flex-col items-center text-center mb-6">
-          <div className="h-12 w-12 rounded-xl bg-blue-600 flex items-center justify-center mb-3">
-            <svg
-              className="h-6 w-6 text-white"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M9 17V7a2 2 0 012-2h6a2 2 0 012 2v10M9 17H7a2 2 0 01-2-2V9a2 2 0 012-2h2m0 10h8"
-              />
-            </svg>
+          <div className="h-16 w-16 mb-3">
+            <img
+            src="/logo-ckh.png"
+            alt="Logo CKH APP"
+            className="h-full w-full object-contain"
+            />
           </div>
           <h1 className="text-xl font-bold text-slate-900">CKH APP</h1>
           <p className="text-xs text-blue-600 font-medium mt-1 leading-relaxed">
