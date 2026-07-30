@@ -13,9 +13,11 @@ const NAV_ITEMS = [
 
 export default function DashboardNavbar({
   userName,
+  fotoProfil,
 }: {
   userName: string;
   userJabatan?: string | null;
+  fotoProfil?: string | null;
 }) {
   const pathname = usePathname();
 
@@ -60,11 +62,18 @@ export default function DashboardNavbar({
           <button className="material-symbols-outlined text-on-surface-variant hover:text-primary p-2 cursor-pointer">
             notifications
           </button>
-          <button className="material-symbols-outlined text-on-surface-variant hover:text-primary p-2 cursor-pointer">
+          <Link
+            href="/pengaturan"
+            className="material-symbols-outlined text-on-surface-variant hover:text-primary p-2 cursor-pointer"
+          >
             settings
-          </button>
+          </Link>
           <div className="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container font-bold overflow-hidden text-sm">
-            {userName?.[0]?.toUpperCase()}
+            {fotoProfil ? (
+              <img src={fotoProfil} alt="" className="w-full h-full object-cover" />
+            ) : (
+              userName?.[0]?.toUpperCase()
+            )}
           </div>
           <button
             onClick={() => signOut({ callbackUrl: "/login" })}

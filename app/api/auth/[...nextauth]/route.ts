@@ -77,12 +77,13 @@ export const authOptions: NextAuthOptions = {
           nip: user.nip,
           jabatan: user.jabatan ?? undefined,
           unitKerja: user.unitKerja ?? undefined,
+          fotoProfil: user.fotoProfil ?? undefined,
         };
       },
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) {
         token.id = user.id;
         // @ts-expect-error - field custom dari authorize()
@@ -91,6 +92,18 @@ export const authOptions: NextAuthOptions = {
         token.jabatan = user.jabatan;
         // @ts-expect-error - field custom dari authorize()
         token.unitKerja = user.unitKerja;
+        // @ts-expect-error - field custom dari authorize()
+        token.fotoProfil = user.fotoProfil;
+      }
+      if (trigger === "update" && session) {
+        if (session.name) token.name = session.name;
+        if (session.email) token.email = session.email;
+        if ((session as Record<string, unknown>).jabatan)
+          (token as Record<string, unknown>).jabatan = (session as Record<string, unknown>).jabatan;
+        if ((session as Record<string, unknown>).unitKerja)
+          (token as Record<string, unknown>).unitKerja = (session as Record<string, unknown>).unitKerja;
+        if ((session as Record<string, unknown>).fotoProfil)
+          (token as Record<string, unknown>).fotoProfil = (session as Record<string, unknown>).fotoProfil;
       }
       return token;
     },
@@ -102,6 +115,8 @@ export const authOptions: NextAuthOptions = {
           token.jabatan as string;
         (session.user as { unitKerja?: string }).unitKerja =
           token.unitKerja as string;
+        (session.user as { fotoProfil?: string }).fotoProfil =
+          token.fotoProfil as string;
       }
       return session;
     },

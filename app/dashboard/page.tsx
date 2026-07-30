@@ -165,6 +165,7 @@ export default async function DashboardPage() {
       <DashboardNavbar
         userName={session.user.name ?? ""}
         userJabatan={(session.user as { jabatan?: string }).jabatan}
+        fotoProfil={(session.user as { fotoProfil?: string }).fotoProfil}
       />
       <main className="flex-1 overflow-hidden flex flex-col max-w-container-max mx-auto px-margin-lg w-full">
         <div className="flex-shrink-0 py-gutter-lg">

@@ -19,6 +19,7 @@ model User {
   passwordHash  String   @map("password_hash") @db.VarChar(255)
   jabatan       String?  @db.VarChar(255)
   unitKerja     String?  @map("unit_kerja") @db.VarChar(255)
+  fotoProfil    String?  @map("foto_profil") @db.Text
   createdAt     DateTime @default(now()) @map("created_at")
 
   // Lockout keamanan login: dikunci 5 menit setelah 5x gagal login berturut-turut
