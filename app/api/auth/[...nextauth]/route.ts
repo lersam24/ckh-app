@@ -77,7 +77,7 @@ export const authOptions: NextAuthOptions = {
           nip: user.nip,
           jabatan: user.jabatan ?? undefined,
           unitKerja: user.unitKerja ?? undefined,
-          fotoProfil: user.fotoProfil ?? undefined,
+          fotoProfil: user.fotoProfil ? `/api/user/foto?id=${user.id}` : undefined,
         };
       },
     }),
@@ -98,11 +98,11 @@ export const authOptions: NextAuthOptions = {
       if (trigger === "update" && session) {
         if (session.name) token.name = session.name;
         if (session.email) token.email = session.email;
-        if ((session as Record<string, unknown>).jabatan)
+        if ((session as Record<string, unknown>).jabatan !== undefined)
           (token as Record<string, unknown>).jabatan = (session as Record<string, unknown>).jabatan;
-        if ((session as Record<string, unknown>).unitKerja)
+        if ((session as Record<string, unknown>).unitKerja !== undefined)
           (token as Record<string, unknown>).unitKerja = (session as Record<string, unknown>).unitKerja;
-        if ((session as Record<string, unknown>).fotoProfil)
+        if ((session as Record<string, unknown>).fotoProfil !== undefined)
           (token as Record<string, unknown>).fotoProfil = (session as Record<string, unknown>).fotoProfil;
       }
       return token;

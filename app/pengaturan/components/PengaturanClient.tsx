@@ -80,7 +80,7 @@ export default function PengaturanClient({ user }: { user: UserData }) {
         email: data.email,
         jabatan: data.jabatan,
         unitKerja: data.unitKerja,
-        fotoProfil: data.fotoProfil,
+        fotoProfil: data.fotoProfil ? `/api/user/foto?id=${data.id}&v=${Date.now()}` : null,
       });
 
       setProfileMessage({ type: "success", text: "Profil berhasil diperbarui" });
