@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CKH App — Aplikasi Catatan Kinerja Harian
 
-## Getting Started
+Monorepo dengan dua bagian terpisah:
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+ckh-app/
+├── backend/    # Node.js + Express.js + MySQL (Prisma) + JWT auth
+├── frontend/   # React.js (Vite) — SPA yang mengonsumsi backend via REST API
+└── _archive-nextjs/   # project Next.js lama (arsip, sudah tidak dipakai)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Menjalankan secara lokal
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Buka dua terminal:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Terminal 1 — Backend**
+```bash
+cd backend
+cp .env.example .env   # isi DATABASE_URL (MySQL), JWT_SECRET, dst
+npm install
+npx prisma migrate dev --name init
+npm run dev             # jalan di http://localhost:4000
+```
 
-## Learn More
+**Terminal 2 — Frontend**
+```bash
+cd frontend
+cp .env.example .env    # VITE_API_URL=http://localhost:4000
+npm install
+npm run dev              # jalan di http://localhost:3000
+```
 
-To learn more about Next.js, take a look at the following resources:
+Buka `http://localhost:3000` di browser.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Riwayat migrasi arsitektur
+1. Awalnya: Next.js App Router (frontend+backend menyatu) + Prisma + PostgreSQL (Supabase)
+2. Sekarang: **backend Express.js + MySQL** terpisah dari **frontend React.js (Vite)**,
+   tidak ada lagi ketergantungan ke Supabase (auth JWT sendiri, storage file lokal).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Detail masing-masing bagian ada di `backend/README.md` dan `frontend/README.md`.
