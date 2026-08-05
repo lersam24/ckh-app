@@ -1,0 +1,10 @@
+node_modules/
+.env
+uploads/**
+!uploads/.gitkeep
+!uploads/foto-profil/
+!uploads/bukti-dukung/
+uploads/foto-profil/*
+uploads/bukti-dukung/*
+!uploads/foto-profil/.gitkeep
+!uploads/bukti-dukung/.gitkeep
